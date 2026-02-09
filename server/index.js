@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fs = require('fs');
+const mongoose = require('mongoose');
 const path = require('path');
+const Ticket = require('./models/Ticket');
 
 const app = express();
-const PORT = 5000;
-const DATA_FILE = path.join(__dirname, 'data.json');
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -14,77 +14,123 @@ app.use(bodyParser.json());
 // Serve static files from the client app
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+// MongoDB Connection
+const MONGO_URI = process.env.MONGO_URI;
+let isMongoConnected = false;
+
+// In-memory fallback
+let localTickets = [
+    {
+        id: "OPS-101",
+        title: "Sample Ticket (Local)",
+        description: "This is a local ticket because no database connection was found.",
+        status: "To Do",
+        priority: "Medium",
+        type: "Task",
+        assignee: "System",
+        created_at: new Date()
+    }
+];
+
+if (!MONGO_URI) {
+    console.log("MONGO_URI not defined. Using in-memory storage.");
+} else {
+    mongoose.connect(MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+        .then(() => {
+            console.log('MongoDB Connected');
+            isMongoConnected = true;
+        })
+        .catch(err => console.error('MongoDB Connection Error:', err));
+}
+
 // API Routes
 
-const readData = () => {
-    try {
-        const data = fs.readFileSync(DATA_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (err) {
-        console.error("Error reading data:", err);
-        return { tickets: [] };
-    }
-};
-
-// Helper function to write data
-const writeData = (data) => {
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-    } catch (err) {
-        console.error("Error writing data:", err);
-    }
-};
-
 // GET all tickets
-app.get('/api/tickets', (req, res) => {
-    const data = readData();
-    res.json(data.tickets);
+app.get('/api/tickets', async (req, res) => {
+    try {
+        if (isMongoConnected) {
+            const tickets = await Ticket.find().sort({ created_at: -1 });
+            res.json(tickets);
+        } else {
+            res.json(localTickets);
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // GET ticket by ID
-app.get('/api/tickets/:id', (req, res) => {
-    const data = readData();
-    const ticket = data.tickets.find(t => t.id === req.params.id);
-    if (ticket) {
-        res.json(ticket);
-    } else {
-        res.status(404).json({ message: 'Ticket not found' });
+app.get('/api/tickets/:id', async (req, res) => {
+    try {
+        if (isMongoConnected) {
+            const ticket = await Ticket.findOne({ id: req.params.id });
+            if (ticket) res.json(ticket);
+            else res.status(404).json({ message: 'Ticket not found' });
+        } else {
+            const ticket = localTickets.find(t => t.id === req.params.id);
+            if (ticket) res.json(ticket);
+            else res.status(404).json({ message: 'Ticket not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
 // POST create ticket
-app.post('/api/tickets', (req, res) => {
-    const data = readData();
-    const newTicket = {
-        id: `OPS-${100 + data.tickets.length + 1}`, // Simple ID generation
-        ...req.body,
-        created_at: new Date().toISOString(),
-        status: 'To Do' // Default status
-    };
-    data.tickets.push(newTicket);
-    writeData(data);
-    res.status(201).json(newTicket);
-});
-
-// PUT update ticket
-app.put('/api/tickets/:id', (req, res) => {
-    const data = readData();
-    const index = data.tickets.findIndex(t => t.id === req.params.id);
-    if (index !== -1) {
-        data.tickets[index] = { ...data.tickets[index], ...req.body };
-        writeData(data);
-        res.json(data.tickets[index]);
-    } else {
-        res.status(404).json({ message: 'Ticket not found' });
+app.post('/api/tickets', async (req, res) => {
+    try {
+        if (isMongoConnected) {
+            const count = await Ticket.countDocuments();
+            const newTicket = new Ticket({
+                id: `OPS-${1000 + count + 1}`,
+                ...req.body
+            });
+            const savedTicket = await newTicket.save();
+            res.status(201).json(savedTicket);
+        } else {
+            const newTicket = {
+                id: `OPS-${localTickets.length + 102}`,
+                ...req.body,
+                created_at: new Date(),
+                status: 'To Do' // ensure default
+            };
+            localTickets.unshift(newTicket);
+            res.status(201).json(newTicket);
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
-// Initialize data file if not exists
-if (!fs.existsSync(DATA_FILE)) {
-    writeData({ tickets: [] });
-}
+// PUT update ticket
+app.put('/api/tickets/:id', async (req, res) => {
+    try {
+        if (isMongoConnected) {
+            const updatedTicket = await Ticket.findOneAndUpdate(
+                { id: req.params.id },
+                req.body,
+                { new: true }
+            );
+            if (updatedTicket) res.json(updatedTicket);
+            else res.status(404).json({ message: 'Ticket not found' });
+        } else {
+            const index = localTickets.findIndex(t => t.id === req.params.id);
+            if (index !== -1) {
+                localTickets[index] = { ...localTickets[index], ...req.body };
+                res.json(localTickets[index]);
+            } else {
+                res.status(404).json({ message: 'Ticket not found' });
+            }
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
 
-// Catch-all handler for any request that doesn't match above ones
+// Catch-all handler
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });

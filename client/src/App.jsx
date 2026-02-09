@@ -39,13 +39,19 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ticketData)
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to create ticket');
+                return res.json();
+            })
             .then(newTicket => {
                 setTickets([...tickets, newTicket]);
                 setIsModalOpen(false);
                 setSelectedTicket(newTicket);
             })
-            .catch(err => console.error("Error creating ticket", err));
+            .catch(err => {
+                console.error("Error creating ticket", err);
+                alert("Failed to create ticket. Check console for details.");
+            });
     };
 
     const handleUpdateStatus = (ticketId, newStatus) => {
@@ -54,7 +60,10 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to update ticket');
+                return res.json();
+            })
             .then(updatedTicket => {
                 setTickets(tickets.map(t => t.id === ticketId ? updatedTicket : t));
                 if (selectedTicket?.id === ticketId) {

@@ -7,7 +7,7 @@ Since I cannot push from here, please run these commands in your terminal to upd
 
 ```bash
 git add .
-git commit -m "Configure for Render deployment"
+git commit -m "Configure for Render deployment with MongoDB"
 git push
 ```
 
@@ -29,12 +29,16 @@ git push
      - *This command installs dependencies for both client and server, and builds the React frontend.*
    - **Start Command**: `npm run server`
      - *This command starts the Express server which serves both the API and the React frontend.*
-5. **Deploy**:
+5. **Environment Variables**:
+   - Scroll down to "Environment Variables" and click "Add Environment Variable".
+   - **Key**: `MONGO_URI`
+   - **Value**: `mongodb+srv://rautrutuj123_db_user:<YOUR_DB_PASSWORD>@cluster0.m5edakb.mongodb.net/?appName=Cluster0`
+     - *Replace `<YOUR_DB_PASSWORD>` with your actual MongoDB password.*
+6. **Deploy**:
    - Click **Create Web Service**.
    - Render will start building. Watch the logs. It might take a few minutes.
-   - Once it says "Live", click the URL provided at the top (e.g., `https://helpdesk-app.onrender.com`).
+   - Once it says "Live", click the URL provided at the top.
 
 ## Verification
 - Open the verified URL.
-- You should see the Helpdesk UI.
-- Try creating a ticket. It should persist (in the ephemeral file system of the free tier).
+- Create a ticket. It should now persist in your **MongoDB Atlas** database, meaning if you redeploy, the data will still be there.
