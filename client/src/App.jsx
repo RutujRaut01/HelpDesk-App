@@ -14,7 +14,8 @@ function App() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchTickets = () => {
-        fetch('http://localhost:5000/api/tickets')
+        // Use relative path for production compatibility
+        fetch('/api/tickets')
             .then(res => res.json())
             .then(data => {
                 setTickets(data);
@@ -34,7 +35,7 @@ function App() {
     }, []);
 
     const handleCreateTicket = (ticketData) => {
-        fetch('http://localhost:5000/api/tickets', {
+        fetch('/api/tickets', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ticketData)
@@ -55,7 +56,7 @@ function App() {
     };
 
     const handleUpdateStatus = (ticketId, newStatus) => {
-        fetch(`http://localhost:5000/api/tickets/${ticketId}`, {
+        fetch(`/api/tickets/${ticketId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
