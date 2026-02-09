@@ -1,0 +1,77 @@
+.sidebar {
+    width: 60px;
+    /* Narrow sidebar as per screenshot 1/3 leftmost strip */
+    background-color: var(--sidebar-bg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    color: rgba(255, 255, 255, 0.6);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.logoContainer {
+    margin-bottom: 40px;
+}
+
+.logoIcon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify_content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    align-items: center;
+    flex: 1;
+}
+
+.navItem {
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 0;
+    position: relative;
+}
+
+.navItem:hover {
+    color: var(--white);
+}
+
+.active {
+    color: var(--white);
+}
+
+.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 32px;
+    width: 3px;
+    background-color: var(--warning);
+    /* Yellow accent from design */
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.spacer {
+    flex: 1;
+}

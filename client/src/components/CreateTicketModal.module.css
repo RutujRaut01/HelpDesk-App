@@ -1,0 +1,118 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(9, 30, 66, 0.54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    width: 500px;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.closeButton {
+    color: var(--text-secondary);
+}
+
+.closeButton:hover {
+    color: var(--text-color);
+}
+
+.form {
+    padding: 20px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.row .formGroup {
+    flex: 1;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background-color: #f4f5f7;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    background-color: white;
+    border-color: var(--primary-color);
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cancelButton {
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #42526e;
+    border-radius: 3px;
+}
+
+.cancelButton:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+}
+
+.createButton {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    border-radius: 3px;
+}
+
+.createButton:hover {
+    background-color: #0052cc;
+}
