@@ -11,7 +11,11 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 app.use(cors());
 app.use(bodyParser.json());
 
-// Helper function to read data
+// Serve static files from the client app
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// API Routes
+
 const readData = () => {
     try {
         const data = fs.readFileSync(DATA_FILE, 'utf8');
@@ -79,6 +83,11 @@ app.put('/api/tickets/:id', (req, res) => {
 if (!fs.existsSync(DATA_FILE)) {
     writeData({ tickets: [] });
 }
+
+// Catch-all handler for any request that doesn't match above ones
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
