@@ -9,10 +9,14 @@
   --success: #36b37e;
   --warning: #ffab00;
   --danger: #ff5630;
-  
+
   --font-family: 'Inter', sans-serif;
   --sidebar-width: 240px;
   --header-height: 60px;
+
+  /* Aliases for missing variables */
+  --primary-blue: var(--primary-color);
+  --bg-light: var(--bg-color);
 }
 
 * {

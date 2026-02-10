@@ -1,0 +1,13 @@
+.ticketsPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    /* This ensures lists scroll independently */
+}

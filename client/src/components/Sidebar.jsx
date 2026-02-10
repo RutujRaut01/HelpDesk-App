@@ -1,25 +1,26 @@
 import React from 'react';
-import { LayoutDashboard, Ticket, Users, FileText, Settings, HelpCircle, Bell } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Ticket, Users, FileText, Settings } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
+    const location = useLocation();
+    const isActive = (path) => location.pathname === path;
+
     return (
         <div className={styles.sidebar}>
             <div className={styles.logoContainer}>
                 <div className={styles.logoIcon}>C</div>
-                {/* Logo text could go here if design requires, but design shows icon mostly */}
             </div>
 
             <nav className={styles.nav}>
-                <div className={styles.navItem} title="Dashboard">
-                    <LayoutDashboard size={20} />
-                </div>
-                <div className={`${styles.navItem} ${styles.active}`} title="Tickets">
+
+                <Link to="/tickets" className={`${styles.navItem} ${isActive('/tickets') ? styles.active : ''}`} title="Tickets">
                     <Ticket size={20} />
-                </div>
-                <div className={styles.navItem} title="Users">
+                </Link>
+                <Link to="/users" className={`${styles.navItem} ${isActive('/users') ? styles.active : ''}`} title="Users">
                     <Users size={20} />
-                </div>
+                </Link>
                 <div className={styles.navItem} title="Reports">
                     <FileText size={20} />
                 </div>

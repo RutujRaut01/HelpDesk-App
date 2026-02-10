@@ -1,287 +1,173 @@
-.container {
-    flex: 1;
-    display: flex;
-    background-color: #f4f5f7;
-    height: 100vh;
-    overflow: hidden;
+.detailContainer {
+    flex: 2;
+    padding: 2rem;
+    background-color: white;
+    overflow-y: auto;
+    border-left: 1px solid #e2e8f0;
 }
 
 .emptyState {
-    flex: 1;
+    flex: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: var(--text-secondary);
-    font-size: 18px;
-}
-
-.mainContent {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    background-color: white;
+    border-left: 1px solid #e2e8f0;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-.ticketTitle {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-color);
-    display: block;
-    margin-bottom: 5px;
-}
-
-.meta {
-    display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
+    margin-bottom: 1.5rem;
+}
+
+.idBadge {
+    font-size: 0.9rem;
     color: var(--text-secondary);
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.actionIcon {
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
-.watcherCount {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-
-.avatars {
-    display: flex;
-    margin-left: 10px;
-}
-
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #ff5630;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    border: 2px solid white;
-    margin-left: -8px;
-}
-
-/* Reply Box Styles */
-.tabs {
-    margin-bottom: 10px;
-}
-
-.tab {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-right: 20px;
-    cursor: pointer;
-    padding-bottom: 5px;
-}
-
-.activeTab {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    font-weight: 600;
-}
-
-.replyBox {
-    background: white;
-    border: 1px solid var(--border-color);
+    background: #f1f5f9;
+    padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    margin-bottom: 20px;
+}
+
+.statusSelect {
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.metaGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.metaItem {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
 }
 
-.replyHeader {
-    padding: 10px 15px;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 13px;
+.label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
+}
+
+.value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    padding-left: 1.35rem;
+    /* align with label text */
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.description {
+    line-height: 1.6;
+    color: #475569;
+}
+
+.commentsList {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.commentHeader {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
 }
 
-.emailTag {
-    background: #ebecf0;
-    padding: 2px 6px;
-    border-radius: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--text-color);
-    margin-left: 5px;
+.commentUser {
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
-.replyInput {
-    width: 100%;
-    border: none;
-    padding: 15px;
-    min-height: 100px;
-    resize: vertical;
-    outline: none;
-    font-family: inherit;
-    font-size: 14px;
-}
-
-.replyFooter {
-    padding: 10px 15px;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f9f9fa;
-}
-
-.editorTools {
-    display: flex;
-    gap: 15px;
+.commentDate {
     color: var(--text-secondary);
-    cursor: pointer;
 }
 
-.sendButton {
-    background: var(--primary-color);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
+.commentText {
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+.noComments {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.addCommentForm {
+    margin-top: 1.5rem;
     display: flex;
-    align-items: center;
+    gap: 0.5rem;
 }
 
-/* Activity Stream */
-.activityItem {
-    display: flex;
-    gap: 15px;
-}
-
-.activityContent {
-    background: white;
-    padding: 15px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
+.addCommentForm input {
     flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
-.activityHeader {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+.addCommentForm input:focus {
+    border-color: var(--primary-blue);
 }
 
-.author {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 14px;
-}
-
-.timestamp {
-    color: var(--text-secondary);
-    font-size: 12px;
-}
-
-.activityBody {
-    font-size: 14px;
-    color: var(--text-color);
-    line-height: 1.5;
-}
-
-/* Right Sidebar Properties */
-.propertiesSidebar {
-    width: 280px;
-    background: white;
-    border-left: 1px solid var(--border-color);
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.statusHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.statusButton {
-    background: var(--primary-color);
+.addCommentForm button {
+    background: var(--primary-blue);
     color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.propertyGroup {
-    margin-bottom: 20px;
-}
-
-.propertyGroup label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-
-.assignLink {
-    color: var(--primary-color);
+    border: none;
+    padding: 0 1rem;
+    border-radius: 6px;
     cursor: pointer;
-}
-
-.selectInput {
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-color);
-    cursor: pointer;
-    background: white;
-}
-
-.selectInput:hover {
-    border-color: #b3b3b3;
-}
-
-.userValue {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.avatarSmall {
-    width: 24px;
-    height: 24px;
-    border-radius: 3px;
-    background-color: #ff5630;
-    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+}
+
+.addCommentForm button:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
 }
